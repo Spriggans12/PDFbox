@@ -4,14 +4,32 @@
 "http://struts.apache.org/dtds/struts-2.0.dtd">
 
 <struts>
+	<constant name="struts.ui.theme" value="simple" />
+	<constant name="struts.multipart.maxSize" value="104857600" /><!-- ~100Mb -->
 
 	<package name="root" namespace="/" extends="struts-default">
+	
 		<action name="Index">
 			<result>jsp/index.jsp</result>
 		</action>
-		<action name="Login" class="fr.spriggans.pdfbox.action.LoginAction">
-			<result name="SUCCESS">jsp/accueil.jsp</result>
+		
+		<action name="Login" class="fr.spriggans.pdfbox.action.IndexAction" method="execute">
+			<result name="SUCCESS" type="redirectAction">
+				<param name="namespace">/</param>
+				<param name="actionName">initPdfBox</param>
+			</result>
 		</action>
+		
+
+		<action name="initPdfBox" class="fr.spriggans.pdfbox.action.PdfBoxAction" method="init">
+			<result name="SUCCESS">jsp/pdfbox.jsp</result>
+		</action>
+		
+		<action name="uploadPdfBox" class="fr.spriggans.pdfbox.action.PdfBoxAction" method="uploadAction">
+			<result name="SUCCESS">jsp/pdfbox.jsp</result>
+		</action>
+		
+		
 	</package>
 
 </struts>
